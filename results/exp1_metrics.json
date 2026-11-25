@@ -1,0 +1,40 @@
+{
+  "table2_reference_checks": [
+    {
+      "H": 0.1,
+      "kappa1": 1.0,
+      "theta_c_computed": 0.8456884917406582,
+      "theta_c_paper": 0.846,
+      "nu_computed": 0.730473729451619,
+      "nu_paper": 0.73,
+      "theta_c_abs_err": 0.00031150825934178616,
+      "nu_abs_err": 0.0004737294516190538
+    },
+    {
+      "H": 0.1,
+      "kappa1": 3.0,
+      "theta_c_computed": 1.0156185622984122,
+      "theta_c_paper": 1.016,
+      "nu_computed": 0.8772528964836867,
+      "nu_paper": 0.877,
+      "theta_c_abs_err": 0.00038143770158782786,
+      "nu_abs_err": 0.00025289648368664874
+    },
+    {
+      "H": 0.5,
+      "kappa1": 1.0,
+      "theta_c_computed": 1.414213562373095,
+      "theta_c_paper": 1.414,
+      "nu_computed": 0.0890870806374748,
+      "nu_paper": 0.089,
+      "theta_c_abs_err": 0.0002135623730949998,
+      "nu_abs_err": 8.708063747479844e-05
+    }
+  ],
+  "growth_rate": {
+    "lambda_star_H0.1_kappa1_0": 17851.39476829929,
+    "lambda_star_H0.1_kappa1_3": 17234.871409166193,
+    "mittag_leffler_growth_max_rel_err_at_H0.5": 2.907915948046148e-16
+  },
+  "runtime_seconds": 39.142420291900635
+}

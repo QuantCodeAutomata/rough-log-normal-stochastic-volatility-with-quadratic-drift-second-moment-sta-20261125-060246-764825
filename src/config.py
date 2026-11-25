@@ -23,9 +23,10 @@ EXP1_FIG2_GAMMA_VALUES = (0.5, 0.9, 1.0, 1.2)  # gamma values plotted in Figure 
 EXP1_FIG2_KAPPA1 = 2.0  # kappa_1 (1/year) used for Figure 2 (Fig. 2 caption, sigma0=theta=... kappa1=2)
 EXP1_FIG2_T_MAX = 5.0  # time horizon (years) for Figure 2
 EXP1_FIG2_SIGMA0_OVER_THETA = 1.0  # sigma_0 = theta, per the Figure 2 caption
-EXP1_FIG2_THETA = 0.3  # theta (reference volatility level, decimal units); not pinned numerically
-# by the paper beyond sigma_0=theta, chosen so that E[sigma_t^2]/theta^2 is scale-free (the
-# plotted ratio does not depend on theta, only gamma and H enter the dynamics below).
+# theta is not pinned numerically beyond sigma_0=theta; for each (H, gamma) panel theta is
+# instead solved from gamma = theta^2 int_0^inf G(u)^2 du at the fixed kappa_1 above, which
+# reproduces the requested gamma exactly and leaves the plotted ratio E[sigma_t^2]/theta^2
+# scale-free in theta (Sec. 3.3).
 EXP1_FIG2_N_STEPS_PER_YEAR = 4000  # product-integration steps per year (Fig. 2 caption: 4,000/8,000)
 EXP1_FIG2_N_STEPS_PER_YEAR_FINE = 8000  # finer grid used to check convergence (Fig. 2 caption)
 
