@@ -11,7 +11,9 @@ from __future__ import annotations
 import numpy as np
 from scipy import integrate
 
-from src.markovian_kernel import KernelSpec, ell_N, resolvent_G_N_modes, G_N
+from src.markovian_kernel import (
+    KernelSpec, ell_N, resolvent_G_N_modes, G_N, resolvent_first_kind_L_over_T,
+)
 
 
 def exact_linear_drift_mean(t: np.ndarray, sigma0: float, theta: float, kappa1: float,
@@ -72,15 +74,20 @@ def exact_linear_drift_second_moment(T_grid: np.ndarray, sigma0: float, theta: f
 
 
 def proposition_3_7_bound(kappa1: float, kappa2: float, theta: float, sigma0: float,
-                           kernel: KernelSpec) -> float:
-    """limsup_{T->inf} E[I_T]/T <= ((c1+ + sqrt(c1+^2 + 4 kappa2 (kappa1 theta + sigma0 ell_N)))
-    / (2 kappa2))^2 (Proposition 3.7, Eq. (20)/(22)), where c1 = kappa2 theta - kappa1 and
-    c1+ = max(c1, 0). Independent of theta_vol (volatility-of-volatility) and H.
+                           kernel: KernelSpec, T: float | None = None) -> float:
+    """Proposition 3.7 upper bound on A_T = E[I_T]/T.
+
+    With T given, uses the finite-horizon bound (20): A_T <= y_T^2 with
+        y_T = (c1+ + sqrt(c1+^2 + 4 kappa2 (kappa1 theta + sigma0 L([0,T])/T))) / (2 kappa2),
+    where c1 = kappa2 theta - kappa1, c1+ = max(c1,0), and L([0,T])/T is the finite-T
+    resolvent-of-the-first-kind ratio of K^N (Appendix A proof of Prop. 3.7).
+    With T=None, uses the T->infinity limit (22), replacing L([0,T])/T by ell_N.
+    Independent of theta_vol (volatility-of-volatility) and H in both cases.
     """
     if kappa2 <= 0:
         raise ValueError("Proposition 3.7 bound requires kappa2 > 0")
     c1 = kappa2 * theta - kappa1
     c1_plus = max(c1, 0.0)
-    ell = ell_N(kernel)
-    inside = c1_plus ** 2 + 4.0 * kappa2 * (kappa1 * theta + sigma0 * ell)
+    l_ratio = ell_N(kernel) if T is None else resolvent_first_kind_L_over_T(kernel, T)
+    inside = c1_plus ** 2 + 4.0 * kappa2 * (kappa1 * theta + sigma0 * l_ratio)
     return ((c1_plus + np.sqrt(inside)) / (2.0 * kappa2)) ** 2

@@ -14,6 +14,7 @@ from src.markovian_kernel import (
     ell_N,
     integral_G_N_squared,
     integral_G_N_squared_quad,
+    resolvent_first_kind_L_over_T,
     resolvent_G_N_modes,
 )
 
@@ -42,6 +43,22 @@ def test_ell_N_positive_for_three_factor_kernel():
     # ell_N = (sum w_i/x_i)^{-1}: direct formula check
     expected = 1.0 / np.sum(KERNEL_3F_WEIGHTS / KERNEL_3F_NODES)
     assert ell == pytest.approx(expected)
+
+
+def test_resolvent_first_kind_L_over_T_converges_to_ell_N():
+    """L([0,T])/T, the finite-horizon ratio entering bound (20), converges to
+    ell_N = (sum w_i/x_i)^{-1} as T -> infinity (Sec. 3.4 proof, Appendix A).
+    Convergence is only algebraic (O(1/T), set by the slowest mode rho ~ -0.69/yr
+    of the 3-factor kernel), so the ratio needs a large T to approach ell_N closely;
+    at the paper's T<=5 years it still differs materially from the T->infinity limit,
+    which is why Prop. 3.7's finite-horizon bound (20) is used in Figure 3(b), not (22)."""
+    kernel = KernelSpec(nodes=KERNEL_3F_NODES, weights=KERNEL_3F_WEIGHTS)
+    ell = ell_N(kernel)
+    ratio_moderate_T = resolvent_first_kind_L_over_T(kernel, 50.0)
+    ratio_large_T = resolvent_first_kind_L_over_T(kernel, 20000.0)
+    assert ratio_large_T == pytest.approx(ell, rel=1e-2)
+    # monotonically decreasing toward ell_N from above over this range
+    assert ell < ratio_large_T < ratio_moderate_T
 
 
 def test_build_symmetric_lambda_positive_definite_when_c1_tilde_negative():

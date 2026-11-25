@@ -93,12 +93,59 @@ def integral_G_N_squared_quad(poles: np.ndarray, residues: np.ndarray, t_max: fl
 
 
 def ell_N(kernel: KernelSpec) -> float:
-    """ell_N = (sum_i w_i/x_i)^{-1}, the Proposition 3.7 bound constant (Sec. 3.4).
+    """ell_N = (sum_i w_i/x_i)^{-1}, the T->infinity limit of L([0,T])/T used in the
+    asymptotic Proposition 3.7 bound (22) (paper Sec. 3.4, proof of Prop. 3.7, Appendix A).
     Requires all nodes x_i > 0 (true for the 3-factor and 97-factor kernels used here).
     """
     if np.any(kernel.nodes <= 0):
         raise ValueError("ell_N requires strictly positive nodes x_i")
     return 1.0 / float(np.sum(kernel.weights / kernel.nodes))
+
+
+def resolvent_first_kind_modes(kernel: KernelSpec) -> tuple[float, float, np.ndarray, np.ndarray]:
+    """Resolvent of the first kind L of K^N, i.e. the measure with (K^N * L)(t) = 1
+    for all t > 0 (paper Appendix A, proof of Proposition 3.7).
+
+    K_hat^N(z) = Pnum(z)/D(z) with D(z) = prod_i (z+x_i) monic of degree N and
+    Pnum(z) = sum_i w_i prod_{j!=i}(z+x_j) of degree N-1. Since (K^N*L)=1 has Laplace
+    transform K_hat^N(z) L_hat(z) = 1/z, the resolvent is L_hat(z) = D(z)/(z*Pnum(z)).
+    This is an improper rational function (both numerator and denominator degree N);
+    polynomial division gives an atom at t=0 of mass c_inf = 1/sum(w_i), and the
+    remaining proper fraction has a pole at z=0 (constant density a_0 = D(0)/Pnum(0),
+    which equals ell_N in the T->infinity limit) plus poles at the N-1 roots of
+    Pnum(z)=0 (density terms a_k*exp(rho_k*t)).
+
+    Returns (c_inf, a0, roots_rho, a_k) so that for T > 0:
+        L([0,T]) = c_inf + a0*T + sum_k a_k*(exp(rho_k*T)-1)/rho_k
+    """
+    nodes, weights = kernel.nodes, kernel.weights
+    N = kernel.n_factors
+    D = np.poly(-nodes)  # degree N, monic
+    Pnum = np.zeros(N)  # degree N-1
+    for i in range(N):
+        other = -np.delete(nodes, i)
+        factor = np.poly(other) if len(other) > 0 else np.array([1.0])
+        Pnum += weights[i] * factor
+    c_inf = 1.0 / kernel.wbar
+    a0 = np.polyval(D, 0.0) / np.polyval(Pnum, 0.0)
+    if N > 1:
+        roots_rho = np.roots(Pnum)
+        Pnum_der = np.polyder(Pnum)
+        a_k = np.polyval(D, roots_rho) / (roots_rho * np.polyval(Pnum_der, roots_rho))
+    else:
+        roots_rho = np.array([], dtype=complex)
+        a_k = np.array([], dtype=complex)
+    return c_inf, a0, roots_rho, a_k
+
+
+def resolvent_first_kind_L_over_T(kernel: KernelSpec, T: float) -> float:
+    """L([0,T])/T for the finite-horizon Proposition 3.7 bound (20) (paper Appendix A).
+    Converges to ell_N as T -> infinity (verified against ell_N in tests)."""
+    c_inf, a0, roots_rho, a_k = resolvent_first_kind_modes(kernel)
+    value = c_inf / T + a0
+    if len(roots_rho) > 0:
+        value += np.sum(np.real(a_k * (np.exp(roots_rho * T) - 1.0) / (roots_rho * T)))
+    return float(value)
 
 
 def build_97_factor_kernel(

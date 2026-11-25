@@ -43,13 +43,21 @@ RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 
 def mc_cell(kernel: KernelSpec, kappa2: float, T: float, steps_per_year: int,
             n_paths: int, n_batches: int, seed: int) -> dict:
-    """E[I_T]/(T theta_vol^2) Monte Carlo cell (Sec. 3.4, Figure 3(b))."""
+    """E[I_T]/(T theta^2) Monte Carlo cell (Sec. 3.4, Figure 3(b) caption).
+
+    Figure 3(b) normalizes the time-averaged second moment by the mean-level
+    parameter theta (sigma0=theta=0.4), not by the total volatility-of-volatility
+    vartheta=1.2 that drives the simulated vol-of-vol noise (sigma0=theta, kappa1=2,
+    rho=0, vartheta=1.2, Figure 3 caption). The two differ here, so I_T must be
+    divided by EXP4_THETA**2, matching the normalization used for the exact
+    linear-drift values below.
+    """
     # EXP4_RHO=0 (beta=0): ModelParams.theta_vol = sqrt(beta^2+eps^2) = eps = EXP4_VARTHETA.
     params = ModelParams(sigma0=EXP4_SIGMA0, kappa1=EXP4_KAPPA1, kappa2=kappa2,
                           theta=EXP4_THETA, beta=EXP4_RHO * EXP4_VARTHETA, eps=EXP4_VARTHETA)
     out = simulate_paths(kernel, params, T=T, steps_per_year=steps_per_year,
                           n_paths=n_paths, seed=seed)
-    ratio = out["I"] / (T * params.theta_vol ** 2)
+    ratio = out["I"] / (T * EXP4_THETA ** 2)
     mean_r = float(np.mean(ratio))
     batch_size = n_paths // n_batches
     batch_means = ratio[: batch_size * n_batches].reshape(n_batches, batch_size).mean(axis=1)
@@ -86,13 +94,20 @@ def main() -> None:
     # Proposition 3.7 bounds, expressed in E[I_T]/(T theta_vol^2) units for comparability
     # with the simulated ratio (bound is independent of theta_vol; dividing by
     # EXP4_THETA**2 here follows the paper's own theta^2-normalization of Figure 3(b)).
+    # Figure 3(b) plots the finite-horizon bound (20), which depends on T through the
+    # resolvent-of-the-first-kind ratio L([0,T])/T of K^N (Appendix A, proof of Prop.
+    # 3.7); the T-independent envelope (22) only gives the T->infinity limit ell_N.
     prop37_bounds = {}
     for kappa2 in EXP4_KAPPA2_GRID:
         if kappa2 <= 0:
             continue
-        raw_bound = proposition_3_7_bound(EXP4_KAPPA1, float(kappa2), EXP4_THETA, EXP4_SIGMA0, kernel)
-        prop37_bounds[float(kappa2)] = raw_bound / EXP4_THETA ** 2
-    print("Proposition 3.7 bounds (E[I_T]/(T theta^2) units):", prop37_bounds)
+        prop37_bounds[float(kappa2)] = {
+            str(T): proposition_3_7_bound(
+                EXP4_KAPPA1, float(kappa2), EXP4_THETA, EXP4_SIGMA0, kernel, T=float(T)
+            ) / EXP4_THETA ** 2
+            for T in EXP4_T_GRID
+        }
+    print("Proposition 3.7 finite-T bounds (E[I_T]/(T theta^2) units):", prop37_bounds)
 
     # Monte Carlo cells.
     rows = []
@@ -117,12 +132,12 @@ def main() -> None:
           f"(paper range: 1.7 to 2.8, Sec. 5)")
 
     # Sanity check: every quadratic-drift MC cell must lie (well) below its
-    # Proposition 3.7 bound (Sec. 3.4, Eq. (20)/(22)).
+    # Proposition 3.7 finite-horizon bound (Sec. 3.4, Eq. (20)).
     for r in quadratic_cells:
-        bound = prop37_bounds[r["kappa2"]]
+        bound = prop37_bounds[r["kappa2"]][str(r["T"])]
         assert r["mean_ratio"] < bound, (
-            f"MC estimate {r['mean_ratio']:.3f} at kappa2={r['kappa2']} exceeds the "
-            f"Proposition 3.7 bound {bound:.3f}"
+            f"MC estimate {r['mean_ratio']:.3f} at kappa2={r['kappa2']}, T={r['T']} exceeds "
+            f"the Proposition 3.7 bound {bound:.3f}"
         )
 
     fig, ax = plt.subplots(figsize=(7, 5))
@@ -137,7 +152,9 @@ def main() -> None:
             ax.plot([c["T"] for c in cells], [c["mean_ratio"] for c in cells],
                      marker=markers[ng], linestyle="-", color=color,
                      label=f"MC $\\kappa_2$={kappa2:.1f}, {ng}/yr" if ng == 720 else None)
-        ax.axhline(prop37_bounds[kappa2], color=color, linestyle="--", linewidth=1)
+        bound_vals = [prop37_bounds[kappa2][str(T)] for T in EXP4_T_GRID]
+        ax.plot(EXP4_T_GRID, bound_vals, color=color, linestyle="--", linewidth=1,
+                 label=f"Prop. 3.7 bound $\\kappa_2$={kappa2:.1f}")
     zero_cells = [r for r in rows if r["kappa2"] == 0 and r["steps_per_year"] == EXP4_STEPS_PER_YEAR_GRID_RUN[-1]]
     zero_cells.sort(key=lambda r: r["T"])
     ax.plot([c["T"] for c in zero_cells], [c["mean_ratio"] for c in zero_cells],
@@ -157,7 +174,7 @@ def main() -> None:
         "ell_N_3factor_H0.1": ell,
         "exact_linear_drift_continuous": {str(T): float(v) for T, v in zip(EXP4_T_GRID, exact_continuous)},
         "exact_linear_drift_discrete": {str(ng): vals for ng, vals in exact_discrete.items()},
-        "proposition_3_7_bounds_theta2_units": prop37_bounds,
+        "proposition_3_7_finite_T_bounds_theta2_units": prop37_bounds,
         "mc_cells": rows,
         "quadratic_cell_range": [min(quad_ratios), max(quad_ratios)],
         "paper_quadratic_cell_range": [1.7, 2.8],
