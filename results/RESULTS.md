@@ -75,7 +75,7 @@ operator-splitting step (memory map, damping map, noise map), and the price
 step. `exp2_metrics.json["martingale_check"]` reports the sample mean of
 S_n/S_0 (full price, correlated plus idiosyncratic shocks) at T=1 for both
 kernels and kappa_2 in {0.0, 0.6, 1.2}: every cell has `mean_S_over_S0` within
-0.2 Monte Carlo standard errors of 1 (`within_3_se_of_1: true` for all 6
+0.35 Monte Carlo standard errors of 1 (`within_3_se_of_1: true` for all 6
 cells), confirming the discrete martingale property of Lemma B.1, which holds
 by construction of the scheme on every grid, independently of kappa_2 and of
 the continuous-time martingale condition of Theorem 4.3. **Verdict:
@@ -94,21 +94,24 @@ steps/year, 200,000 paths, 40 batches, seed 3.
 
 | kappa_2 | computed mean (5,760 steps) | paper mean | batch SE (computed) | diff in batch SE |
 |---|---|---|---|---|
-| 0.0 | 0.93893 | 0.93971 | 0.00077 | 1.01 |
-| 0.3 | 0.98617 | 0.98473 | 0.00164 | 0.88 |
-| 0.6 | 1.00332 | 0.99711 | 0.00195 | 1.07 |
-| 0.9 | 1.00178 | 0.99917 | 0.00122 | 0.72 |
-| 1.2 | 1.00069 | 0.99965 | 0.00131 | 0.26 |
+| 0.0 | 0.93886 | 0.93971 | 0.00077 | 1.11 |
+| 0.3 | 0.98617 | 0.98473 | 0.00201 | 0.72 |
+| 0.6 | 1.00332 | 0.99711 | 0.00564 | 1.10 |
+| 0.9 | 1.00178 | 0.99917 | 0.00267 | 0.98 |
+| 1.2 | 1.00069 | 0.99965 | 0.00156 | 0.66 |
 
 (computed values taken from `exp3_metrics.json`, `all_cells` entries at
 `steps_per_year=5760`; "diff in batch SE" = |computed - paper| / computed
 batch SE). All five cells agree with the paper's reported means to within
-about 1 batch standard error. The qualitative result holds exactly as
-predicted by Theorem 4.3: for kappa_2 < beta (0.0, 0.3) the sample mean is
-clearly below 1 (strict local martingale), and for kappa_2 >= beta (0.6, 0.9,
-1.2) the mean is statistically indistinguishable from 1 (true martingale),
-with the crossing located near kappa_2 = beta = 0.6 as in Figure 3(a).
-**Verdict: reproduced.**
+about 1.1 batch standard errors, consistent with the paper's own statement
+that the three means for kappa_2 >= beta lie within 1.7 batch standard
+errors of 1. The qualitative result holds exactly as predicted by
+Theorem 4.3: for kappa_2 < beta (0.0, 0.3) the sample mean is clearly below 1
+(strict local martingale), and for kappa_2 >= beta (0.6, 0.9, 1.2) the mean
+is statistically indistinguishable from 1 (true martingale, each within 1.1
+batch standard errors of 1: 1.00332+/-0.00564, 1.00178+/-0.00267,
+1.00069+/-0.00156), with the crossing located near kappa_2 = beta = 0.6 as in
+Figure 3(a). **Verdict: reproduced.**
 
 ## Experiment 4: Time-averaged second-moment bounds under quadratic drift
 
@@ -141,7 +144,7 @@ steps/year:
 - kappa_2 > 0 (quadratic drift): the 24 cells range from 1.66 to 2.75
   (paper: "estimates across the 24 quadratic-drift cells range from 1.7 to
   2.8"), in close agreement, and well inside the Proposition 3.7 bound
-  (`exp4_metrics.json["proposition_3_7_bounds_theta2_units"]`) for every
+  (`exp4_metrics.json["proposition_3_7_finite_T_bounds_theta2_units"]`) for every
   kappa_2 and T.
 
 **Verdict: reproduced** for the quadratic-drift bound and its qualitative
