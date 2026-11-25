@@ -1,0 +1,79 @@
+{
+  "martingale_check": [
+    {
+      "kernel": "3-factor_H0.1",
+      "kappa2": 0.0,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 0.99965311289039,
+      "mc_std_error": 0.005039802189859606,
+      "within_3_se_of_1": true,
+      "seconds": 0.6615405279999322
+    },
+    {
+      "kernel": "3-factor_H0.1",
+      "kappa2": 0.6,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 1.0006887778889197,
+      "mc_std_error": 0.004175272136603663,
+      "within_3_se_of_1": true,
+      "seconds": 0.7111850439996488
+    },
+    {
+      "kernel": "3-factor_H0.1",
+      "kappa2": 1.2,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 1.0006027069732868,
+      "mc_std_error": 0.0038308501453169453,
+      "within_3_se_of_1": true,
+      "seconds": 0.7175672690000283
+    },
+    {
+      "kernel": "1-factor_H0.5",
+      "kappa2": 0.0,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 1.0011654046361198,
+      "mc_std_error": 0.0034502767978560897,
+      "within_3_se_of_1": true,
+      "seconds": 0.29719240800022817
+    },
+    {
+      "kernel": "1-factor_H0.5",
+      "kappa2": 0.6,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 1.0011304272674941,
+      "mc_std_error": 0.0033745736767045423,
+      "within_3_se_of_1": true,
+      "seconds": 0.3133736179997868
+    },
+    {
+      "kernel": "1-factor_H0.5",
+      "kappa2": 1.2,
+      "n_paths": 20000,
+      "steps_per_year": 365,
+      "T": 1.0,
+      "mean_S_over_S0": 1.0011023307778344,
+      "mc_std_error": 0.0033190912196652336,
+      "within_3_se_of_1": true,
+      "seconds": 0.30796368200026336
+    }
+  ],
+  "kernel_summary": {
+    "n_factors_3f": 3,
+    "wbar_3f": 7.752000000000001,
+    "n_factors_1f": 1,
+    "wbar_1f": 1.0,
+    "n_factors_97f": 97,
+    "wbar_97f": 10.600223809809977
+  },
+  "seconds_per_path_per_step": 4.2186805753460734e-08
+}

@@ -1,0 +1,183 @@
+{
+  "all_cells": [
+    {
+      "kappa2": 0.0,
+      "steps_per_year": 1440,
+      "n_paths": 200000,
+      "mean_F": 0.939324509378703,
+      "per_path_se": 0.0007023340048962053,
+      "batch_se": 0.0007383834230200255,
+      "seconds": 22.33596469599979
+    },
+    {
+      "kappa2": 0.3,
+      "steps_per_year": 1440,
+      "n_paths": 200000,
+      "mean_F": 0.9833223942835252,
+      "per_path_se": 0.0017622735020490319,
+      "batch_se": 0.0013390199617366277,
+      "seconds": 29.229711616999793
+    },
+    {
+      "kappa2": 0.6,
+      "steps_per_year": 1440,
+      "n_paths": 200000,
+      "mean_F": 0.9944231156651459,
+      "per_path_se": 0.0015925051648368012,
+      "batch_se": 0.0011675473878541025,
+      "seconds": 30.249884457000007
+    },
+    {
+      "kappa2": 0.9,
+      "steps_per_year": 1440,
+      "n_paths": 200000,
+      "mean_F": 0.9965825365695251,
+      "per_path_se": 0.0012467323761458525,
+      "batch_se": 0.0009462957221415825,
+      "seconds": 28.34039173500014
+    },
+    {
+      "kappa2": 1.2,
+      "steps_per_year": 1440,
+      "n_paths": 200000,
+      "mean_F": 0.9972847607137268,
+      "per_path_se": 0.0010698171700107089,
+      "batch_se": 0.0008453683196841516,
+      "seconds": 26.879312614000355
+    },
+    {
+      "kappa2": 0.0,
+      "steps_per_year": 2880,
+      "n_paths": 200000,
+      "mean_F": 0.9388956977481168,
+      "per_path_se": 0.0007569539699873177,
+      "batch_se": 0.000848030709923219,
+      "seconds": 45.2114539600002
+    },
+    {
+      "kappa2": 0.3,
+      "steps_per_year": 2880,
+      "n_paths": 200000,
+      "mean_F": 0.9855270773377868,
+      "per_path_se": 0.0019483697252987247,
+      "batch_se": 0.0020890315101512466,
+      "seconds": 53.59146796599998
+    },
+    {
+      "kappa2": 0.6,
+      "steps_per_year": 2880,
+      "n_paths": 200000,
+      "mean_F": 0.9971904154258913,
+      "per_path_se": 0.0017291007169775213,
+      "batch_se": 0.0017933590932946574,
+      "seconds": 56.8193266950002
+    },
+    {
+      "kappa2": 0.9,
+      "steps_per_year": 2880,
+      "n_paths": 200000,
+      "mean_F": 0.9987891221893294,
+      "per_path_se": 0.00132128619054186,
+      "batch_se": 0.001381176516507459,
+      "seconds": 55.57046815900003
+    },
+    {
+      "kappa2": 1.2,
+      "steps_per_year": 2880,
+      "n_paths": 200000,
+      "mean_F": 0.9990947812462462,
+      "per_path_se": 0.0011124660113713046,
+      "batch_se": 0.0011731450287882196,
+      "seconds": 54.37716739899952
+    },
+    {
+      "kappa2": 0.0,
+      "steps_per_year": 5760,
+      "n_paths": 200000,
+      "mean_F": 0.9388594094549977,
+      "per_path_se": 0.0007012446916503422,
+      "batch_se": 0.0007671652168300432,
+      "seconds": 90.8316346190004
+    },
+    {
+      "kappa2": 0.3,
+      "steps_per_year": 5760,
+      "n_paths": 200000,
+      "mean_F": 0.9861690558824693,
+      "per_path_se": 0.0023153645938041255,
+      "batch_se": 0.0020083116003771165,
+      "seconds": 110.92750272800004
+    },
+    {
+      "kappa2": 0.6,
+      "steps_per_year": 5760,
+      "n_paths": 200000,
+      "mean_F": 1.0033179557589138,
+      "per_path_se": 0.005803647084719909,
+      "batch_se": 0.005637943545787079,
+      "seconds": 108.55689585799973
+    },
+    {
+      "kappa2": 0.9,
+      "steps_per_year": 5760,
+      "n_paths": 200000,
+      "mean_F": 1.0017769287471125,
+      "per_path_se": 0.0028060027284007643,
+      "batch_se": 0.002674649590153445,
+      "seconds": 105.72041273099967
+    },
+    {
+      "kappa2": 1.2,
+      "steps_per_year": 5760,
+      "n_paths": 200000,
+      "mean_F": 1.000687273704871,
+      "per_path_se": 0.001641752776091291,
+      "batch_se": 0.0015648648047457403,
+      "seconds": 109.65707231800025
+    }
+  ],
+  "comparison_at_finest_grid": [
+    {
+      "kappa2": 0.0,
+      "run_mean_F": 0.9388594094549977,
+      "run_batch_se": 0.0007671652168300432,
+      "paper_mean_F": 0.93971,
+      "paper_batch_se": 0.00068,
+      "diff_in_paper_se": 1.2508684485328836
+    },
+    {
+      "kappa2": 0.3,
+      "run_mean_F": 0.9861690558824693,
+      "run_batch_se": 0.0020083116003771165,
+      "paper_mean_F": 0.98473,
+      "paper_batch_se": 0.00155,
+      "diff_in_paper_se": 0.928423149980185
+    },
+    {
+      "kappa2": 0.6,
+      "run_mean_F": 1.0033179557589138,
+      "run_batch_se": 0.005637943545787079,
+      "paper_mean_F": 0.99711,
+      "paper_batch_se": 0.00177,
+      "diff_in_paper_se": 3.50731963780438
+    },
+    {
+      "kappa2": 0.9,
+      "run_mean_F": 1.0017769287471125,
+      "run_batch_se": 0.002674649590153445,
+      "paper_mean_F": 0.99917,
+      "paper_batch_se": 0.00137,
+      "diff_in_paper_se": 1.9028676986222972
+    },
+    {
+      "kappa2": 1.2,
+      "run_mean_F": 1.000687273704871,
+      "run_batch_se": 0.0015648648047457403,
+      "paper_mean_F": 0.99965,
+      "paper_batch_se": 0.00111,
+      "diff_in_paper_se": 0.9344808151991492
+    }
+  ],
+  "total_seconds": 928.2998242410004,
+  "assumption": "Each (kappa2, grid) cell uses an independent random stream; the paper's own aggregation of shared Brownian increments across grids is not implemented (see results/RESULTS.md)."
+}

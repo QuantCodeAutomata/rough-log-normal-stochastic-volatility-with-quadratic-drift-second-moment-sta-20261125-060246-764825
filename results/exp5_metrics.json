@@ -1,0 +1,139 @@
+{
+  "synthetic_self_test": [
+    {
+      "label": "BTC_H0.50_self_test",
+      "H": 0.5,
+      "n_factors": 1,
+      "ground_truth": {
+        "sigma0": 0.37746,
+        "theta": 0.36609,
+        "kappa1": 11.89875,
+        "kappa2": 0.41383,
+        "beta": 0.40383,
+        "eps": 4.09675
+      },
+      "x0_perturbed": {
+        "sigma0": 0.396347413929839,
+        "theta": 0.42425640015878086,
+        "kappa1": 13.210876042722,
+        "kappa2": 0.3683429965735226,
+        "beta": 0.3715504603342801,
+        "eps": 4.708892030970855
+      },
+      "fitted": {
+        "sigma0": 0.37745999999999996,
+        "theta": 0.3660899999999997,
+        "kappa1": 11.898750000000017,
+        "kappa2": 0.41383000000000003,
+        "beta": 0.40383,
+        "eps": 4.096750000000001
+      },
+      "rho": 0.09809781850547362,
+      "kappa2_minus_beta": 0.010000000000000009,
+      "gamma": 0.7121100633007662,
+      "weighted_rms": 2.2358237232008183e-13,
+      "inside_bid_ask": 33,
+      "n_quotes": 33,
+      "martingale_constraint_satisfied": true,
+      "optimizer_success": true,
+      "elapsed_seconds": 8.451889276504517
+    },
+    {
+      "label": "BTC_H0.30_self_test",
+      "H": 0.3,
+      "n_factors": 97,
+      "ground_truth": {
+        "sigma0": 0.36324,
+        "theta": 0.36317,
+        "kappa1": 3.80371,
+        "kappa2": 0.19193,
+        "beta": 0.18193,
+        "eps": 1.8783
+      },
+      "x0_perturbed": {
+        "sigma0": 0.38141587091579165,
+        "theta": 0.4208724544392483,
+        "kappa1": 4.223161366737019,
+        "kappa2": 0.1708336063899577,
+        "beta": 0.1673877008855597,
+        "eps": 2.1589581745951194
+      },
+      "fitted": {
+        "sigma0": 0.36324,
+        "theta": 0.3631700000000363,
+        "kappa1": 3.8037099999918498,
+        "kappa2": 0.19192999999991436,
+        "beta": 0.18192999999991435,
+        "eps": 1.8783000000015921
+      },
+      "rho": 0.09640768639730896,
+      "kappa2_minus_beta": 0.010000000000000009,
+      "gamma": 0.7509842315357733,
+      "weighted_rms": 6.242103928928444e-11,
+      "inside_bid_ask": 33,
+      "n_quotes": 33,
+      "martingale_constraint_satisfied": true,
+      "optimizer_success": true,
+      "elapsed_seconds": 28.381398916244507
+    }
+  ],
+  "table4_paper_reference": {
+    "BTC_H0.30": {
+      "sigma0": 0.36324,
+      "theta": 0.36317,
+      "kappa1": 3.80371,
+      "kappa2": 0.19193,
+      "beta": 0.18193,
+      "eps": 1.8783,
+      "rho": 0.09641,
+      "kappa2_minus_beta": 0.01,
+      "gamma": 0.75098,
+      "rms": 0.71651,
+      "inside": 27,
+      "n_quotes": 45
+    },
+    "BTC_H0.50": {
+      "sigma0": 0.37746,
+      "theta": 0.36609,
+      "kappa1": 11.89875,
+      "kappa2": 0.41383,
+      "beta": 0.40383,
+      "eps": 4.09675,
+      "rho": 0.0981,
+      "kappa2_minus_beta": 0.01,
+      "gamma": 0.71211,
+      "rms": 0.79087,
+      "inside": 28,
+      "n_quotes": 45
+    },
+    "ETH_H0.30": {
+      "sigma0": 0.77823,
+      "theta": 3.9252,
+      "kappa1": 0.01003,
+      "kappa2": 0.57527,
+      "beta": 0.19698,
+      "eps": 0.87174,
+      "rho": 0.22041,
+      "kappa2_minus_beta": 0.37828,
+      "gamma": 14.47392,
+      "rms": 0.34923,
+      "inside": 33,
+      "n_quotes": 39
+    },
+    "ETH_H0.50": {
+      "sigma0": 0.80466,
+      "theta": 2.4556,
+      "kappa1": 0.57978,
+      "kappa2": 1.1661,
+      "beta": 0.42839,
+      "eps": 1.87244,
+      "rho": 0.22302,
+      "kappa2_minus_beta": 0.73771,
+      "gamma": 3.18184,
+      "rms": 0.30829,
+      "inside": 33,
+      "n_quotes": 39
+    }
+  },
+  "note": "table4_paper_reference values are the paper's own published Table 4 numbers, not recomputed in this replication (no Deribit BTC/ETH quote data available)."
+}
